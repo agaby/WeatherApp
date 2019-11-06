@@ -55,11 +55,11 @@ export class DetailsComponent implements OnInit, OnDestroy {
     const todayNumInWeek = new Date().getDay();
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     this.today=days[todayNumInWeek];
-    
+    // activeRouter Provides access to information about a route associated with the details component
     this.activeRouter.paramMap.subscribe((rout: any)=>{
       
       this.city = rout.prams.city;
-      this.sub1 = this.weather.getWeatherState(this.city).subscribe((stat)=> this.state=stat);
+      this.sub1 = this.weather.getWeatherState(this.city).subscribe((state)=> this.state=state);
       this.sub2 = this.weather.getCurrentTemp(this.city).subscribe((temperature) => this.temp = temperature);
       this.sub3 = this.weather.getCurrentHum(this.city).subscribe((humidity) => this.hum = humidity);
       this.sub4 = this.weather.getCurrentWind(this.city).subscribe((windspeed) => this.wind = windspeed);
@@ -100,7 +100,11 @@ export class DetailsComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy(): void {
-    throw new Error("Method not implemented.");
+    this.sub1.unsubscribe();
+    this.sub2.unsubscribe();
+    this.sub3.unsubscribe();
+    this.sub4.unsubscribe();
+    this.sub5.unsubscribe();
   }
   
 }
